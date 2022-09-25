@@ -1,8 +1,13 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
+import { ICategoryProps } from '../ReduxToolkit/features/userSlice'
 
-const MiniCard = () => {
+const MiniCard = ({name}:ICategoryProps) => {
+    const navigate=useNavigate();
   return (
-    <div>MiniCard</div>
+    <div onClick={()=>{
+navigate(`/categories/${name}`)
+    }}>{name}</div>
   )
 }
 

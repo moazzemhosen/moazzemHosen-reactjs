@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react'
+import React from 'react'
 
 const Products = () => {
  
@@ -9,4 +9,4 @@ const Products = () => {
 }
 
 
-export default Products
+export default Products;

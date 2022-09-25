@@ -1,10 +1,14 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../ReduxToolkit/Hooks"; 
- import { fetchCategory, fetchProduct } from "../../ReduxToolkit/features/userSlice"; 
+import { useAppDispatch, useAppSelector } from "../../ReduxToolkit/Hooks";
+import {
+  getCategory,
+  getProduct,
+} from "../../ReduxToolkit/features/userSlice";
 
 import Card from "../Card";
-import { useNavigate } from "react-router-dom";
-export type IproductItemsProps ={
+import { useNavigate, useParams } from "react-router-dom";
+import Categories from "./Categories";
+export type IproductItemsProps = {
   _id: string;
   name: string;
   avatar: string;
@@ -12,30 +16,38 @@ export type IproductItemsProps ={
   description: string;
   developerEmail: string;
   price: number;
-  
-}
+};
 const Home = () => {
-  const Products=useAppSelector(state=>state.app.products);
-    const dispach=useAppDispatch();
-    const navigate=useNavigate()
-  const handleAdd=()=>{
-navigate("/form")
+  var Products = useAppSelector((state) => state.app.products);
+  const dispach = useAppDispatch();
+  const navigate = useNavigate();
+  const handleAdd = () => {
+    navigate("/form");
+  };
+  const { type } = useParams();
+  if (type) {
+    //console.log("type",type);
+
+    Products = Products.filter((e) => {
+      return e["category"] === type;
+    });
+    console.log("Products", Products);
   }
 
   useEffect(() => {
-    dispach(fetchProduct())
-    dispach(fetchCategory())
+    dispach(getProduct());
+    dispach(getCategory());
   }, [dispach]);
 
-  return (<div className="grid grid-cols-4 gap-4 " >
-<button onClick={()=>handleAdd()}>Add Products</button>
-    {Products.map((e)=>{
-        return (
-          
-          <Card key={e._id} {...e}/>
-        )
-    })}
-  </div>);
-}
+  return (
+    <div className="grid grid-cols-4 gap-4 ">
+      <Categories />
+      <button onClick={() => handleAdd()}>Add Products</button>
+      {Products.map((e) => {
+        return <Card key={e._id} {...e} />;
+      })}
+    </div>
+  );
+};
 
-export default Home
+export default Home;
