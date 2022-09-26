@@ -3,13 +3,13 @@ import axios from "axios";
 import { IFormInput } from "../../components/pages/Form";
 
 type IproductItemsProps = {
+  _id: string;
+  name: string;
+  price: number;
   avatar: string;
   category: string;
   description: string;
   developerEmail: string;
-  name: string;
-  price: number;
-  _id: string;
 };
 
 export type ICategoryProps = {
@@ -55,6 +55,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     addTofavoutite: (state, action: PayloadAction<IproductItemsProps>) => {
+      const id= state.favourites.find((e:IproductItemsProps)=>action.payload._id===e._id);
+      if(id){
+        alert("Already aded")
+        return;
+      }
       state.favourites.push(action.payload);
       localStorage.setItem("Favourite", JSON.stringify(state.favourites));
     },
@@ -176,7 +181,7 @@ export const createProduct = createAsyncThunk("product/form", (data:IFormInput) 
   return axios
     .post("https://upayments-studycase-api.herokuapp.com/api/products",body,config)
     .then((res) => {
-      console.log(res.data);
+      alert("Added successfull")
       return res.data.products;
     });
   

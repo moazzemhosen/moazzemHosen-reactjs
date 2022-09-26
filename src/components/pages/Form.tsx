@@ -1,5 +1,6 @@
- import React, { useState } from "react";
+ import React from "react";
  import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../ReduxToolkit/features/userSlice";
 import { useAppDispatch } from "../../ReduxToolkit/Hooks";
  
@@ -14,22 +15,23 @@ import { useAppDispatch } from "../../ReduxToolkit/Hooks";
 
 const Form = () => {
   const {register,handleSubmit}=useForm<IFormInput>();
-  const [json, setJson] = useState({});
+  ;
   const dispatch=useAppDispatch()
 
   const onSubmit = (data: IFormInput) => {
-    setJson(data);
+ 
     dispatch(createProduct(data))
   };
+  const navigate=useNavigate()
 
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
       <div className="max-w-md w-full mx-auto">
         <div className="text-center font-medium text-xl">Add a New Products</div>
-        <div className="text-3xl font-bold text-gray-900 mt-2 text-center">
-          
-        </div>
+        <button onClick={()=>navigate("/")} className=" text-gray-900 mt-2 text-center bg-blue-400 w-28 h-9 rounded">
+          Back
+        </button>
       </div>
 
       <div className="max-w-md w-full mx-auto mt-4 bg-white p-8 border-gray-300">
